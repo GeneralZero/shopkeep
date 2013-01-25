@@ -1,0 +1,52 @@
+Project name: shopkeep
+Team Name: T.E.A.M. P.A.S.T.A.
+
+
+#tables/db schema
+user := id, privileges, profile
+item := seller, title, status, desc, price, creation_time, expiration_time, profile
+message := thread_id, sender, rescipient, datetime, content, item
+log:=
+rating := seller, item, rater, rating, comments
+collection := type, owners, items, query
+
+#urls
+/users/<id>
+/users/<id>/items
+/users/<id>/items/<id>
+/messages
+/messages/<thread>
+/log
+/collection/<type>/<id>
+/search?
+
+#example database definition
+class <objName>(db.model):
+	field = db.somethingProperty
+
+#code usage
+using webapp2
+might use jinja2 templating
+
+#pages we need templates for
+profile page
+items list page
+items page
+messages inbox page
+thread page
+log page
+
+#for now
+models:
+make properties (database fields)
+think of all methods and right methods
+def methodName(args): pass
+
+
+#who is doing what
+Brian - user
+Jordan - item, collection
+Nick - message
+Tyler - log, rating
+
+
