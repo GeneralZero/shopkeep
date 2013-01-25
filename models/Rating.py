@@ -6,9 +6,9 @@ class Rating(db.Model):
 	"""Represents a user's rating of a seller or item and the
 	associated comments"""
 	seller = db.UserProperty(required=True)
-	rater = db.UserProperty(required=True)
+	rater = users.UserProperty(required=True)
 	item = db.ReferenceProperty(Item, required=True)
-	rating = db.IntegerProperty(required=True, choices=set([1, 2, 3, 4, 5]))
+	rating = db.RatingProperty(required=True)
 	comments = db.TextProperty()
 
 	@classmethod
