@@ -4,7 +4,7 @@ from google.appengine.api import users
 class User(db.Model):
 	"""Represents a user's rating of a seller or item and the
 	associated comments"""
-	id = db.IntegerProperty(required=True)
+	id = user.UserProperty(required=True)
 	email = db.Email(required=True)
 	first_name = db.StringProperty(required=True)
 	last_name = db.StringProperty(required=True)
