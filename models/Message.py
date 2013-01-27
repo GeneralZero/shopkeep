@@ -10,5 +10,17 @@ class Message(db.Model):
 	datetime = db.DateTimeProperty(required=True, auto_now_add=True)
 	content = db.TextProperty(required=True)
 	item = db.ReferenceProperty(Item)
+	read = db.BooleanProperty(required=True)
 
-	
+	@classmethod
+	def getMessages(cls, user):
+		pass
+
+	@classmethod
+	def replyToMessage(message, content):
+		pass
+
+	@classmethod
+	def createMessage(item, content):
+		pass
+
