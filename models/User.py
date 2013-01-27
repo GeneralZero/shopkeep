@@ -11,7 +11,7 @@ class User(db.Model):
 	address = db.PostalAddress()
 	phone_number = db.PhoneNumber()
 	registered = db.DateTimeProperty(auto_now_add=True)
-	#last_loggedin = db.DateTimeProperty(auto_now_add=True)
+	last_loggedin = db.DateTimeProperty(auto_now_add=True)
 	#last_IP = db.IntegerProperty()
 	info = db.TextProperty()
 	photo = db.blobstore.BlobReferenceProperty()
