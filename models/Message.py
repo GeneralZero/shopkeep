@@ -24,3 +24,8 @@ class Message(db.Model):
 	def createMessage(item, content):
 		pass
 
+	@classmethod
+	def getThread(id):
+		pass
+
+
