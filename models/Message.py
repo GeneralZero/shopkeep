@@ -14,7 +14,10 @@ class Message(db.Model):
 
 	@classmethod
 	def getMessages(cls, user):
-		pass
+		q = cls.all()
+		q.filter('recipient = ', user)
+		q.order('datetime');
+		return q
 
 	@classmethod
 	def replyToMessage(cls, message, content):
