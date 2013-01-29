@@ -20,12 +20,16 @@ class Message(db.Model):
 	def replyToMessage(cls, message, content):
 		pass
 
+	# how to get unique thread id for new sequence of messages in google datastore?
 	@classmethod
 	def createMessage(cls, item, content):
 		pass
 
 	@classmethod
 	def getThread(cls, id):
-		pass
+		q = cls.all()
+		q.filter('thread_id = ', id)
+		q.order('datetime')
+		return q
 
 
