@@ -17,15 +17,15 @@ class Message(db.Model):
 		pass
 
 	@classmethod
-	def replyToMessage(message, content):
+	def replyToMessage(cls, message, content):
 		pass
 
 	@classmethod
-	def createMessage(item, content):
+	def createMessage(cls, item, content):
 		pass
 
 	@classmethod
-	def getThread(id):
+	def getThread(cls, id):
 		pass
 
 
