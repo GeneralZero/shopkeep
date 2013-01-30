@@ -5,7 +5,7 @@ from . import Item
 class Rating(db.Model):
 	"""Represents a user's rating of a seller or item and the
 	associated comments"""
-	seller = db.UserProperty(required=True)
+	seller = users.UserProperty(required=True)
 	rater = users.UserProperty(required=True)
 	item = db.ReferenceProperty(Item, required=True)
 	rating = db.RatingProperty(required=True)
