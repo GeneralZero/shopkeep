@@ -1,3 +1,6 @@
+import datetime
+import hashlib
+from os import urandom
 from google.appengine.ext import db
 from google.appengine.ext import users
 from . import Item
@@ -21,12 +24,27 @@ class Message(db.Model):
 
 	@classmethod
 	def replyToMessage(cls, message, content):
-		pass
+		x = Message()
+		x.thread_id = message.thread_id
+		x.recipient = message.sender
+		x.content = content
+		x.item = message.item
+		x.read = False
+		x.put()
 
-	# how to get unique thread id for new sequence of messages in google datastore?
 	@classmethod
-	def createMessage(cls, item, content):
-		pass
+	def createMessage(cls, recipient, item, content):
+		x = Message()
+		randomSalt = urandom()
+		h = hashlib.sha512()
+		# using hash of sender, recipient, datetime, and random salt to create thread_id
+		tid_hash_object = h.update(str(datetime.datetime.now.date)+str(recipient)+str(users.get_current_user())+str(randomSalt))
+		x.thread_id = tid_hash_object.digest()
+		x.recipient = recipient
+		x.content = content
+		x.item = item
+		x.read = False
+		x.put()
 
 	@classmethod
 	def getThread(cls, id):
