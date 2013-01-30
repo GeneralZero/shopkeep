@@ -12,9 +12,19 @@ class Collection(db.model):
 	owners = db.ListProperty(users.User, required=True)
 	items = db.ListProperty(db.Key)
 	query = db.ListProperty(str)
+	public = db.BooleanProperty()
 
 	def getItems(self):
 		if query:
 			return Item.search(self.query)
 		else:
 			return Item.get(self.items)
+
+	def canView(self, user):
+		if user in self.owners:
+			return True
+		else:
+			return self.public
+
+	def canEdit(self, user):
+		return user in self.owners
