@@ -13,8 +13,7 @@ class Collection(db.model):
 	items = db.ListProperty(db.Key)
 	query = db.ListProperty(str)
 
-	@classmethod
-	def getItems(cls):
+	def getItems(self):
 		if query:
 			return Item.search(self.query)
 		else:
