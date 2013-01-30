@@ -7,7 +7,7 @@ from . import Item
 
 class Message(db.Model):
 	"""represents a message thread between users"""
-	thread_id = db.IntegerProperty(required=True)
+	thread_id = db.TextProperty(required=True)
 	sender = users.UserProperty(required=True, auto_current_user_add=True)
 	recipient = users.UserProperty(required=True)
 	datetime = db.DateTimeProperty(required=True, auto_now_add=True)
@@ -39,7 +39,7 @@ class Message(db.Model):
 		h = hashlib.sha512()
 		# using hash of sender, recipient, datetime, and random salt to create thread_id
 		tid_hash_object = h.update(str(datetime.datetime.now.date)+str(recipient)+str(users.get_current_user())+str(randomSalt))
-		x.thread_id = tid_hash_object.digest()
+		x.thread_id = tid_hash_object.hexdigest()
 		x.recipient = recipient
 		x.content = content
 		x.item = item
