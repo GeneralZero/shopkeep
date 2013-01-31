@@ -17,9 +17,11 @@ class Message(db.Model):
 
 	@classmethod
 	def getMessages(cls, user):
-		q = cls.all()
-		q.filter('recipient = ', user)
-		q.order('datetime');
+		q = db.GqlQuery("SELECT * from Message WHERE sender = :1 OR recipient = :1", user)
+		q.order("datetime")
+		#q = cls.all()
+		#q.filter('recipient = ', user)
+		#q.order('datetime');
 		return q
 
 	@classmethod
