@@ -1,6 +1,7 @@
 import datetime
 import hashlib
-from os import urandom
+from Crypto.Hash import SHA256
+from Crypto import Random
 from google.appengine.ext import db
 from google.appengine.ext import users
 from . import Item
@@ -37,11 +38,15 @@ class Message(db.Model):
 	@classmethod
 	def createMessage(cls, recipient, item, content):
 		x = Message()
-		randomSalt = urandom()
-		h = hashlib.sha512()
+		# not 100% sure about correct PyCrypto Random usage
+		randomSalt = int( Random.new().read(32) )
+		h = SHA256.new()
 		# using hash of sender, recipient, datetime, and random salt to create thread_id
-		tid_hash_object = h.update(str(datetime.datetime.now.date)+str(recipient)+str(users.get_current_user())+str(randomSalt))
-		x.thread_id = tid_hash_object.hexdigest()
+		h.update( str(datetime.datetime.now.date) )
+		h.update( str(recipient) )
+		h.update( str( users.get_current_user() ) )
+		h.update( str(randomSalt) )
+		x.thread_id = h.hexdigest()
 		x.recipient = recipient
 		x.content = content
 		x.item = item
