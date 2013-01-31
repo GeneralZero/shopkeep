@@ -7,7 +7,7 @@ from . import Item
 
 class Message(db.Model):
 	"""represents a message thread between users"""
-	thread_id = db.TextProperty(required=True)
+	thread_id = db.StringProperty(required=True)
 	sender = users.UserProperty(required=True, auto_current_user_add=True)
 	recipient = users.UserProperty(required=True)
 	datetime = db.DateTimeProperty(required=True, auto_now_add=True)
