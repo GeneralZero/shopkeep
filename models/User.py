@@ -1,4 +1,4 @@
-from google.appengine.ext import db
+from google.appengine.ext import db, blobstore
 from google.appengine.api import users
 
 class User(db.Model):
@@ -14,5 +14,5 @@ class User(db.Model):
 	last_loggedin = db.DateTimeProperty(auto_now_add=True)
 	#last_IP = db.IntegerProperty()
 	info = db.TextProperty()
-	photo = db.blobstore.BlobReferenceProperty()
-	video = db.blobstore.BlobReferenceProperty()
+	photo = blobstore.BlobReferenceProperty()
+	video = blobstore.BlobReferenceProperty()
