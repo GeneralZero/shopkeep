@@ -1,5 +1,5 @@
 import datetime
-import hashlib
+import operator
 from Crypto.Hash import SHA256
 from Crypto import Random
 from google.appengine.ext import db
@@ -17,13 +17,42 @@ class Message(db.Model):
 	read = db.BooleanProperty(required=True)
 
 	@classmethod
-	def getMessages(cls, user):
-		q = db.GqlQuery("SELECT * from Message WHERE sender = :1 OR recipient = :1", user)
-		q.order("datetime")
-		#q = cls.all()
-		#q.filter('recipient = ', user)
-		#q.order('datetime');
-		return q
+	def getMessages(cls, user, inbox=True, sent=True):
+		def orderedGenerator(queries, field, dir):
+			objs = []
+			# Get first item from each query
+			for query in queries.enumerate():
+				try:
+					objs.append(query.next())
+				except StopIteration:
+					# Remove empty queries
+					queries.remove(query)
+
+			dir = True if dir == 'DESC' else False
+			while filter(None, objs):
+				obj = min(objs, key=operator.attrgetter(field), reverse=dir)
+				index = objs.index(obj)
+				try:
+					objs[index] = queries[index].next()
+				except StopIteration:
+					# Query exhausted, remove it from list
+					queries.remove(index)
+					objs.remove(index)
+				yield obj
+
+		queries = []
+		if inbox:
+			q = cls.all()
+			q.filter('recipient = ', user)
+			q.order('datetime')
+			queries.append(q)
+		if sent:
+			q = cls.all()
+			q.filter('sender = ', user)
+			q.order('datetime')
+			queries.append(q)
+
+		return orderedGenerator(queries, 'datetime', 'DESC')
 
 	@classmethod
 	def replyToMessage(cls, message, content):
